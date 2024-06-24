@@ -1,0 +1,116 @@
+0624
+今日任务 
+
+● 203.移除链表元素 
+● 707.设计链表 
+● 206.反转链表 
+
+203.移除链表元素  
+建议： 本题最关键是要理解 虚拟头结点的使用技巧，这个对链表题目很重要。
+题目链接/文章讲解/视频讲解：：https://programmercarl.com/0203.%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0.html
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        demmyHead = ListNode(next = head)
+        current = demmyHead
+        while current.next:
+            if current.next.val == val:
+                current.next = current.next.next
+            else: 
+                current = current.next
+        return demmyHead.next
+'''
+
+
+707.设计链表  
+建议： 这是一道考察 链表综合操作的题目，不算容易，可以练一练 使用虚拟头结点
+题目链接/文章讲解/视频讲解：https://programmercarl.com/0707.%E8%AE%BE%E8%AE%A1%E9%93%BE%E8%A1%A8.html
+'''
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+    
+class MyLinkedList:
+    def __init__(self):
+        self.dhead = ListNode()
+        self.size = 0
+
+
+    def get(self, index: int) -> int:
+        if index < 0 or index >= self.size:
+            return -1
+        
+        current = self.dhead.next
+        for i in range(index):
+            current = current.next
+        return current.val if current else -1
+
+    def addAtHead(self, val: int) -> None:
+        self.dhead.next = ListNode(val, self.dhead.next)
+        self.size += 1
+
+    def addAtTail(self, val: int) -> None:
+        current = self.dhead
+        while current.next:
+            current = current.next
+        current.next = ListNode(val)
+        self.size += 1
+
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        if index < 0 or index > self.size:
+            return
+        current = self.dhead 
+        for i in range(index):
+            current = current.next
+        current.next = ListNode(val, current.next)
+        self.size += 1
+    
+    def deleteAtIndex(self, index: int) -> None:
+        if index < 0 or index >= self.size:
+            return 
+        current = self.dhead
+        for i in range(index):
+            current = current.next
+        current.next = current.next.next
+        self.size -= 1
+
+
+
+# Your MyLinkedList object will be instantiated and called as such:
+# obj = MyLinkedList()
+# param_1 = obj.get(index)
+# obj.addAtHead(val)
+# obj.addAtTail(val)
+# obj.addAtIndex(index,val)
+# obj.deleteAtIndex(index)
+'''
+
+206.反转链表 
+建议先看我的视频讲解，视频讲解中对 反转链表需要注意的点讲的很清晰了，看完之后大家的疑惑基本都解决了。
+题目链接/文章讲解/视频讲解：https://programmercarl.com/0206.%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8.html 
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur = head
+        pre = None
+        while cur:
+            temp = cur.next
+            cur.next = pre
+            pre = cur
+            cur = temp
+        return pre
+'''
+
+链表题的难点在于正确理解其单向的性质，这不仅决定了链表的修改与提取不同于数组，也挑战了我们的思维方式
