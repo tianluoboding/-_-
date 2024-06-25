@@ -1,0 +1,97 @@
+0625
+24. 两两交换链表中的节点 
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dhead = ListNode(next = head)
+        cur = dhead
+        while cur.next and cur.next.next:
+            temp = cur.next
+            temp1 = cur.next.next.next
+            cur.next = cur.next.next
+            cur.next.next = temp
+            temp.next = temp1
+            cur = cur.next.next
+        return dhead.next
+        '''
+19.删除链表的倒数第N个节点 
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dhead = ListNode(next = head)
+        slow = fast = dhead
+        for i in range(n+1):
+            fast = fast.next
+        while fast:
+            slow = slow.next
+            fast = fast.next
+        slow.next = slow.next.next
+        return dhead.next
+        '''
+● 面试题 02.07. 链表相交 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        lenA, lenB = 0, 0
+        cur = headA
+        while cur:
+            cur = cur.next
+            lenA += 1
+        cur = headB
+        while cur:
+            cur = cur.next
+            lenB += 1
+        curA, curB = headA, headB
+        if lenA > lenB:
+            curA, curB = curB, curA
+            lenA, lenB = lenB, lenA
+        for _ in range(lenB-lenA):
+            curB = curB.next
+        while curA:
+            if curA == curB:
+                return curA
+            else:
+                curA = curA.next
+                curB = curB.next
+        return None
+        
+
+        
+● 142.环形链表II 
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        fast = head
+        slow = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if slow == fast:
+                slow = head
+                while slow != fast:   
+                    slow = slow.next
+                    fast = fast.next
+                return slow
+        return None
+        '''
