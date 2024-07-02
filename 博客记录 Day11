@@ -1,0 +1,72 @@
+第五章 栈与队列part02
+
+今天最大的收获便是了解了逆波兰表达式的应用场景，极大提高了电脑处理计算符号的效率。
+另外栈也适用于滑动窗口的问题，可以即时迎接新数字并比较大小，就像一个即时“客栈”
+ 
+ 150. 逆波兰表达式求值 
+from operator import add, mul, sub
+def div(x, y):
+    return int(x/y) if x * y > 0 else - (abs(x) // abs(y)) 
+class Solution:
+    op_mapp = {'+': add, '-': sub, '*': mul, '/': div}
+    def evalRPN(self, tokens: List[str]) -> int:
+        stack = []
+        for token in tokens:
+            if token not in {'*', '+', '/', '-'}:
+                stack.append(int(token))
+            else:
+                op2 = stack.pop()
+                op1 = stack.pop()
+                stack.append(self.op_mapp[token](op1, op2))
+        return stack.pop()
+            
+
+  
+
+
+ 239. 滑动窗口最大值 （有点难度，可能代码写不出来，但一刷至少需要理解思路）
+
+from collections import deque
+class MyQueue:
+    def __init__(self):
+        self.queue = deque()
+    def pop(self, value):
+        if self.queue and value == self.queue[0]:
+            self.queue.popleft()
+    def push(self, value):
+        while self.queue and value > self.queue[-1]:
+            self.queue.pop()
+        self.queue.append(value)
+    def front(self):
+        return self.queue[0]
+
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        que = MyQueue()
+        result = []
+        for i in range(k):
+            que.push(nums[i])
+        result.append(que.front())
+        for i in range(k, len(nums)):
+            que.pop(i - k)
+            que.push(nums[i])
+            result.append(que.front())
+        return result
+
+
+
+ 347.前 K 个高频元素  （有点难度，可能代码写不出来，一刷至少需要理解思路）
+
+大/小顶堆的应用， 在C++中就是优先级队列 
+
+本题是 大数据中取前k值 的经典思路，了解想法之后，不算难。
+
+题目链接/文章讲解/视频讲解：https://programmercarl.com/0347.%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0.html  
+
+
+ 总结 
+
+栈与队列做一个总结吧，加油
+
+https://programmercarl.com/%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97%E6%80%BB%E7%BB%93.html  
+
